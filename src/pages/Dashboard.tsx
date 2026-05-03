@@ -22,12 +22,12 @@ export default function Dashboard() {
     loadData();
   }, []);
 
-  const totalRevenue = orders.reduce((sum, o) => sum + o.paidAmount, 0);
-  const totalValue = orders.reduce((sum, o) => sum + o.totalPrice, 0);
+  const totalRevenue = orders.reduce((sum, o) => sum + o.paid_amount, 0);
+  const totalValue = orders.reduce((sum, o) => sum + o.total_price, 0);
   const revenueProgress = totalValue > 0 ? (totalRevenue / totalValue) * 100 : 0;
   
   const activeCustomersCount = customers.filter(c => 
-    orders.some(o => o.customerId === c.id)
+    orders.some(o => o.customer_id === c.id)
   ).length;
 
   const completedOrders = orders.filter(o => o.status === "paid").length;

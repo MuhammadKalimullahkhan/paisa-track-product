@@ -1,0 +1,34 @@
+{
+  "workspace_version": "1.0",
+  "project": {
+    "name": "Paisa",
+    "type": "financial-tracker-pwa",
+    "path": "C:\\Users\\khank\\Desktop\\Projects\\paisa"
+  },
+  "stack": {
+    "frontend": ["React 19", "React Router DOM 7"],
+    "build": ["Vite 6", "TypeScript 5.8"],
+    "styling": ["Tailwind CSS 4", "Motion", "Lucide Icons"],
+    "backend": ["Express 4", "better-sqlite3"],
+    "mobile": ["Capacitor 8"],
+    "ai": ["Google Gemini SDK"]
+  },
+  "structure": {
+    "src": "src/",
+    "server": "server.ts",
+    "config": ["vite.config.ts", "capacitor.config.ts", "tsconfig.json"],
+    "pages": ["Dashboard", "CustomerDirectory", "OrderDirectory", "NewTransaction", "Settings"],
+    "components": ["Layout"]
+  },
+  "database": {
+    "type": "SQLite",
+    "file": "data.db",
+    "tables": ["customers", "products", "variants", "orders"]
+  },
+  "commands": {
+    "dev": "npm run dev",
+    "build": "npm run build",
+    "preview": "npm run preview",
+    "clean": "npm run clean"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "projects": {
+    "android": {
+      "appId": "app.paisa.finance",
+      "appName": "Paisa",
+      "webDir": "dist",
+      "useIdeRelations": true
+    }
+  }
+}

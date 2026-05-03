@@ -4,28 +4,31 @@ export interface Customer {
   email: string;
   contact: string;
   address: string;
+  created_at?: string;
 }
 
 export interface Product {
   id: string;
   name: string;
+  created_at?: string;
 }
 
 export interface ProductVariant {
   id: string;
-  productId: string;
+  product_id: string;
   type: "Bluetooth" | "Non-Bluetooth";
   price: number;
+  created_at?: string;
 }
 
 export interface Order {
   id: string;
-  customerId: string;
-  productVariantId: string;
+  customer_id: string;
+  product_variant_id: string;
   quantity: number;
-  totalPrice: number;
-  paidAmount: number;
+  total_price: number;
+  paid_amount: number;
   status: "pending" | "partial" | "paid";
-  createdAt: string;
-  deliveryDate?: string;
+  created_at: string;
+  delivery_date?: string;
 }

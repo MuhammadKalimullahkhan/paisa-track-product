@@ -54,16 +54,16 @@ export default function CustomerDirectory() {
   };
 
   const getCustomerStatus = (customerId: string) => {
-    const customerOrders = orders.filter(o => o.customerId === customerId);
+    const customerOrders = orders.filter(o => o.customer_id === customerId);
     if (customerOrders.length === 0) return "Inactive";
     const hasUnpaid = customerOrders.some(o => o.status !== "paid");
     return hasUnpaid ? "Pending" : "Active";
   };
 
   const getLatestInteraction = (customerId: string) => {
-    const customerOrders = orders.filter(o => o.customerId === customerId);
+    const customerOrders = orders.filter(o => o.customer_id === customerId);
     if (customerOrders.length === 0) return null;
-    return customerOrders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0];
+    return customerOrders.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())[0];
   };
 
   const getProcessedCustomers = () => {
@@ -248,11 +248,11 @@ export default function CustomerDirectory() {
                     {latestOrder ? "Latest Payment" : "No orders yet"}
                   </p>
                   <p className="font-display text-2xl text-on-surface">
-                    {latestOrder ? `$${latestOrder.paidAmount.toLocaleString()}` : "---"}
+                    {latestOrder ? `$${latestOrder.paid_amount?.toLocaleString()}` : "---"}
                   </p>
-                  {latestOrder?.deliveryDate && (
+                  {latestOrder?.delivery_date && (
                     <p className="text-[9px] text-primary font-bold uppercase tracking-widest mt-0.5">
-                      Delivery: {new Date(latestOrder.deliveryDate).toLocaleDateString()}
+                      Delivery: {new Date(latestOrder.delivery_date).toLocaleDateString()}
                     </p>
                   )}
                 </div>

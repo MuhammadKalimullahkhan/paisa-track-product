@@ -59,14 +59,14 @@ export default function OrderDirectory() {
 
   const getProcessedOrders = () => {
     let list = orders.filter(order => {
-      const customer = customers.find(c => c.id === order.customerId);
+      const customer = customers.find(c => c.id === order.customer_id);
       const matchesSearch = customer?.name.toLowerCase().includes(search.toLowerCase()) || 
                            order.id.toLowerCase().includes(search.toLowerCase());
       const matchesStatus = filterStatus === "all" || order.status === filterStatus;
       return matchesSearch && matchesStatus;
     });
 
-    return list.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    return list.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
   };
 
   if (loading && orders.length === 0) return (
@@ -90,7 +90,7 @@ export default function OrderDirectory() {
           <div className="text-right">
             <span className="text-[10px] font-bold text-outline uppercase tracking-[0.3em]">Total Volume</span>
             <p className="font-display text-2xl text-primary-container">
-              ${orders.reduce((sum, o) => sum + o.totalPrice, 0).toLocaleString()}
+              ${orders.reduce((sum, o) => sum + o.total_price, 0).toLocaleString()}
             </p>
           </div>
         </div>
@@ -124,10 +124,10 @@ export default function OrderDirectory() {
       {/* Orders List */}
       <section className="space-y-4">
         {getProcessedOrders().map((order, idx) => {
-          const customer = customers.find(c => c.id === order.customerId);
-          const variant = variants.find(v => v.id === order.productVariantId);
-          const product = products.find(p => p && p.id === variant?.productId);
-          const date = new Date(order.createdAt).toLocaleDateString(undefined, { 
+          const customer = customers.find(c => c.id === order.customer_id);
+          const variant = variants.find(v => v.id === order.product_variant_id);
+          const product = products.find(p => p && p.id === variant?.product_id);
+          const date = new Date(order.created_at).toLocaleDateString(undefined, { 
             month: 'short', day: 'numeric', year: 'numeric' 
           });
 
@@ -166,9 +166,9 @@ export default function OrderDirectory() {
                 <p className="text-sm text-on-surface-variant flex items-center justify-center md:justify-start gap-2 opacity-70">
                   <Package size={14} /> {product?.name} ({variant?.type}) × {order.quantity}
                 </p>
-                {order.deliveryDate && (
+                {order.delivery_date && (
                   <p className="text-[10px] text-primary font-bold uppercase tracking-widest mt-1">
-                    Delivery: {new Date(order.deliveryDate).toLocaleDateString()}
+                    Delivery: {new Date(order.delivery_date).toLocaleDateString()}
                   </p>
                 )}
               </div>
@@ -178,10 +178,10 @@ export default function OrderDirectory() {
                 <p className="text-[10px] font-bold text-outline uppercase tracking-widest mb-1">Settlement</p>
                 <div className="flex flex-col items-center md:items-end">
                   <span className="font-display text-2xl text-primary-container font-bold">
-                    ${order.paidAmount.toLocaleString()}
+                    ${order.paid_amount.toLocaleString()}
                   </span>
                   <span className="text-xs text-outline opacity-60">
-                    of ${order.totalPrice.toLocaleString()}
+                    of ${order.total_price.toLocaleString()}
                   </span>
                 </div>
               </div>
@@ -191,7 +191,7 @@ export default function OrderDirectory() {
                 <div className="h-1.5 w-full bg-surface-container-high rounded-full overflow-hidden">
                   <motion.div 
                     initial={{ width: 0 }}
-                    animate={{ width: `${(order.paidAmount / (order.totalPrice || 1)) * 100}%` }}
+                    animate={{ width: `${(order.paid_amount / (order.total_price || 1)) * 100}%` }}
                     className={`h-full ${order.status === 'paid' ? 'bg-primary' : 'bg-secondary'}`}
                   />
                 </div>
@@ -252,8 +252,8 @@ export default function OrderDirectory() {
                     <div className="relative">
                       <select 
                         required
-                        value={editingOrder.customerId}
-                        onChange={(e) => setEditingOrder({...editingOrder, customerId: e.target.value})}
+                        value={editingOrder.customer_id}
+                        onChange={(e) => setEditingOrder({...editingOrder, customer_id: e.target.value})}
                         className="w-full bg-surface-container-low border-none rounded-2xl px-6 py-4 text-on-surface focus:bg-primary-fixed transition-colors appearance-none cursor-pointer"
                       >
                         {customers.map(c => (
@@ -292,8 +292,8 @@ export default function OrderDirectory() {
                     <input 
                       type="number"
                       required
-                      value={editingOrder.totalPrice}
-                      onChange={(e) => setEditingOrder({...editingOrder, totalPrice: parseFloat(e.target.value)})}
+                      value={editingOrder.total_price}
+                      onChange={(e) => setEditingOrder({...editingOrder, total_price: parseFloat(e.target.value)})}
                       className="w-full bg-surface-container-low border-none rounded-2xl px-6 py-4 text-on-surface focus:bg-primary-fixed transition-colors"
                     />
                   </div>
@@ -303,8 +303,8 @@ export default function OrderDirectory() {
                     <input 
                       type="number"
                       required
-                      value={editingOrder.paidAmount}
-                      onChange={(e) => setEditingOrder({...editingOrder, paidAmount: parseFloat(e.target.value)})}
+                      value={editingOrder.paid_amount}
+                      onChange={(e) => setEditingOrder({...editingOrder, paid_amount: parseFloat(e.target.value)})}
                       className="w-full bg-surface-container-low border-none rounded-2xl px-6 py-4 text-on-surface focus:bg-primary-fixed transition-colors"
                     />
                   </div>
@@ -315,8 +315,8 @@ export default function OrderDirectory() {
                   <label className="text-[10px] font-bold text-outline px-4 uppercase tracking-[0.2em]">Delivery Date</label>
                   <input 
                     type="date"
-                    value={editingOrder.deliveryDate || ""}
-                    onChange={(e) => setEditingOrder({...editingOrder, deliveryDate: e.target.value})}
+                    value={editingOrder.delivery_date || ""}
+                    onChange={(e) => setEditingOrder({...editingOrder, delivery_date: e.target.value})}
                     className="w-full bg-surface-container-low border-none rounded-2xl px-6 py-4 text-on-surface focus:bg-primary-fixed transition-colors"
                   />
                 </div>

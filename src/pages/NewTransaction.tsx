@@ -44,11 +44,13 @@ export default function NewTransaction() {
     setSubmitting(true);
     try {
       await api.createOrder({
-        customerId,
-        productVariantId: variantId,
+        customer_id: customerId,
+        product_variant_id: variantId,
         quantity,
-        paidAmount,
-        deliveryDate,
+        paid_amount: paidAmount,
+        total_price: totalPrice,
+        status: paidAmount >= totalPrice ? "paid" : paidAmount > 0 ? "partial" : "pending",
+        delivery_date: deliveryDate,
       });
       navigate("/");
     } catch (err) {
@@ -115,7 +117,7 @@ export default function NewTransaction() {
             >
               <option value="">What are they taking?</option>
               {variants.map(v => {
-                const product = products.find(p => p.id === v.productId);
+                const product = products.find(p => p.id === v.product_id);
                 return (
                   <option key={v.id} value={v.id}>
                     {product?.name} ({v.type}) - ${v.price}
